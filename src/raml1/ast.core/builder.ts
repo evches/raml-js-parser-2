@@ -399,7 +399,7 @@ export class BasicNodeBuilder implements hl.INodeBuilder{
                             var cUnit = ch1.containingUnit();
                             if (cUnit && cUnit.absolutePath() != rootUnit.absolutePath()) {
                                 var rChild = _.find(rNode.children(), ch2=>ch2.lowLevel().key() == ch1.key());
-                                if (rChild) {
+                                if (rChild && rChild.lowLevel().unit().absolutePath()==cUnit.absolutePath()) {
                                     gotReuse = true;
                                     res.push(rChild);
                                     (<hlimpl.BasicASTNode>rChild).setReused(true);

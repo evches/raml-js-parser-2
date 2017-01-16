@@ -10,7 +10,7 @@ describe('AST Reuse Test Set',function() {
     this.timeout(15000);
     describe('Basic Tests', function () {
 
-        it("Space in the method descrription", function () {
+        it("Space in the method description", function () {
             test("ASTReuseTests/BasicTests/api.raml", "ASTReuseTests/BasicTests/api01.raml");
         });
 
@@ -27,8 +27,8 @@ describe('AST Reuse Test Set',function() {
 
 function test(path1:string,path2:string,doReuse=true) {
 
-    var path1Res = util.data(path1);
-    var path2Res = util.data(path2);
+    var path1Res = util.data(path1).replace(/\\/g,'/');
+    var path2Res = util.data(path2).replace(/\\/g,'/');
     let api1 = (<ramlWrapper.ApiImpl>index.loadRAMLSync(path1Res, [])).expand();
 
     var resolver = new jsyaml.FSResolverImpl();
@@ -55,7 +55,7 @@ function test(path1:string,path2:string,doReuse=true) {
     })).expand();
     var payload2 = api3.toJSON({rootNodeDetails: true});
 
-    var diff = util.compare(payload2,payload1);
+    var diff = util.compare(payload1,payload2);
 
 
     if(diff.length!=0){

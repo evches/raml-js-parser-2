@@ -438,7 +438,7 @@ function checkReusability(hnode:hlimpl.ASTNodeImpl,rNode:hlimpl.ASTNodeImpl){
     if(pos<0&&s1.length!=s2.length){
         pos = l;
     }
-    var editedNode = search.deepFindNode(hnode,pos,pos+1);
+    var editedNode = search.deepFindNode(rNode,pos,pos+1);
     if(!editedNode){
         return true;
     }
@@ -471,6 +471,7 @@ function checkReusability(hnode:hlimpl.ASTNodeImpl,rNode:hlimpl.ASTNodeImpl){
         if(universeHelpers.isResourceTypeType(pDef)||universeHelpers.isTraitType(pDef)){
             return false;
         }
+        p = p.parent();
     }
     return true;
 }

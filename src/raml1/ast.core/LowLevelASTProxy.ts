@@ -538,7 +538,13 @@ export class LowLevelCompositeNode extends LowLevelProxyNode{
         if(!this._children){
             this._children = [];
         }
-        var newCNode = new LowLevelCompositeNode(newNode,this,null,this.ramlVersion);
+        var newCNode:LowLevelCompositeNode;
+        if(LowLevelCompositeNode.isInstance(newNode)){
+            newCNode = <LowLevelCompositeNode>newNode;
+        }
+        else {
+            newCNode = new LowLevelCompositeNode(newNode, this, null, this.ramlVersion);
+        }
         if(oldNode==null){
             this._children.push(newCNode);
             return newCNode;
