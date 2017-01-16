@@ -17,7 +17,6 @@ import referencePatcher = require("./referencePatcher");
 import namespaceResolver = require("./namespaceResolver");
 import def = require("raml-definition-system");
 import universeHelpers = require("../tools/universeHelpers");
-import search = require("../../search/search-interface");
 
 var changeCase = require('change-case');
 
@@ -169,7 +168,7 @@ export class TraitsAndResourceTypesExpander {
         }
         if(hlimpl.ASTNodeImpl.isInstance(hlNode)) {
             var hnode = <hlimpl.ASTNodeImpl>hlNode;  
-            if(checkReusability(hnode)) {
+            if(hnode.reusedNode()!=null) {
                 hnode.setReuseMode(true);
             }
         }
@@ -957,57 +956,3 @@ interface ResourceGenericData{
 
 var defaultParameters = [ 'resourcePath', 'resourcePathName', 'methodName' ];
 
-function checkReusability(hnode:hlimpl.ASTNodeImpl){
-    var rNode = hnode.reusedNode();
-    if(!rNode) {
-        return false;
-    }
-    var s1 = hnode.lowLevel().unit().contents();
-    var s2 = rNode.lowLevel().unit().contents();
-    var l = Math.min(s1.length,s2.length);
-    var pos = -1;
-    for(var i = 0 ; i < l ; i++){
-        if(s1.charAt(i)!=s2.charAt(i)){
-            pos = i;
-            break;
-        }
-    }
-    if(pos<0&&s1.length!=s2.length){
-        pos = l;
-    }
-    var editedNode = search.deepFindNode(hnode,pos,pos+1);
-    if(!editedNode){
-        return true;
-    }
-    if(editedNode.lowLevel().unit().absolutePath() != hnode.lowLevel().unit().absolutePath()){
-        return true;
-    }
-    if(editedNode.isAttr()){
-        var parent = editedNode.parent();
-        if(universeHelpers.isTypeDeclarationDescendant(parent.definition())){
-            return false;
-        }
-        var pProp = parent.property();
-        if(!pProp){
-            return true;
-        }
-        var propRange = pProp.range();
-        if(universeHelpers.isResourceTypeRefType(propRange)||universeHelpers.isTraitRefType(propRange)){
-            return false;
-        }
-    }
-    else if(editedNode.isElement()){
-        var el = editedNode.asElement();
-        if(universeHelpers.isTypeDeclarationDescendant(el.definition())){
-            return false;
-        }
-    }
-    var p = editedNode.parent();
-    while(p){
-        var pDef = p.definition();
-        if(universeHelpers.isResourceTypeType(pDef)||universeHelpers.isTraitType(pDef)){
-            return false;
-        }
-    }
-    return true;
-}

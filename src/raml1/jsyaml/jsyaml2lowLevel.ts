@@ -833,6 +833,14 @@ export class Project implements lowlevel.IProject{
             this._httpResolver = new HTTPResolverImpl();
         }
     }
+    
+    setFSResolver(res:resolversApi.FSResolver){
+        this.resolver = res;
+    }
+
+    setHTTPResolver(res:resolversApi.HTTPResolver){
+        this._httpResolver = res;
+    }
 
     fsEnabled(): boolean {
         return this._fsEnabled;

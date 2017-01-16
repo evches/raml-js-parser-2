@@ -20,6 +20,8 @@ import parserCore=require('../raml1/wrapped-ast/parserCore')
 import parserCoreApi=require('../raml1/wrapped-ast/parserCoreApi')
 import ramlServices = require("../raml1/definition-system/ramlServices")
 import tckDumperHL = require("../util/TCKDumperHL")
+import universeHelpers = require("./tools/universeHelpers");
+import search = require("./../search/search-interface");
 
 export type IHighLevelNode=hl.IHighLevelNode;
 export type IParseResult=hl.IParseResult;
@@ -297,6 +299,12 @@ function getProject(apiPath:string,options?:parserCoreApi.Options):jsyaml.Projec
     if(reusedNode){
         project = <jsyaml.Project>reusedNode.lowLevel().unit().project();
         project.deleteUnit(path.basename(apiPath));
+        if(includeResolver) {
+            project.setFSResolver(includeResolver);
+        }
+        if(httpResolver){
+            project.setHTTPResolver(httpResolver);
+        }
     }
     else {
         var projectRoot = path.dirname(apiPath);
@@ -371,7 +379,10 @@ function toApi(unitOrHighlevel:ll.ICompilationUnit|hl.IHighLevelNode, options:pa
         highLevel = <hl.IHighLevelNode>hlimpl.fromUnit(unit);
         if(options.reusedNode) {
             if(options.reusedNode.lowLevel().unit().absolutePath()==unit.absolutePath()) {
-                (<hlimpl.ASTNodeImpl>highLevel).setReusedNode(options.reusedNode);
+                if(checkReusability(<hlimpl.ASTNodeImpl>highLevel,
+                        <hlimpl.ASTNodeImpl>options.reusedNode)) {
+                    (<hlimpl.ASTNodeImpl>highLevel).setReusedNode(options.reusedNode);
+                }
             }
         }
         //highLevel =
@@ -408,4 +419,58 @@ export function loadApis1(projectRoot:string,cacheChildren:boolean = false,expan
         result.push(api);
     });
     return result;
+}
+
+function checkReusability(hnode:hlimpl.ASTNodeImpl,rNode:hlimpl.ASTNodeImpl){
+    if(!rNode) {
+        return false;
+    }
+    var s1 = hnode.lowLevel().unit().contents();
+    var s2 = rNode.lowLevel().unit().contents();
+    var l = Math.min(s1.length,s2.length);
+    var pos = -1;
+    for(var i = 0 ; i < l ; i++){
+        if(s1.charAt(i)!=s2.charAt(i)){
+            pos = i;
+            break;
+        }
+    }
+    if(pos<0&&s1.length!=s2.length){
+        pos = l;
+    }
+    var editedNode = search.deepFindNode(hnode,pos,pos+1);
+    if(!editedNode){
+        return true;
+    }
+    if(editedNode.lowLevel().unit().absolutePath() != hnode.lowLevel().unit().absolutePath()){
+        return true;
+    }
+    if(editedNode.isAttr()){
+        var parent = editedNode.parent();
+        if(universeHelpers.isTypeDeclarationDescendant(parent.definition())){
+            return false;
+        }
+        var pProp = parent.property();
+        if(!pProp){
+            return true;
+        }
+        var propRange = pProp.range();
+        if(universeHelpers.isResourceTypeRefType(propRange)||universeHelpers.isTraitRefType(propRange)){
+            return false;
+        }
+    }
+    else if(editedNode.isElement()){
+        var el = editedNode.asElement();
+        if(universeHelpers.isTypeDeclarationDescendant(el.definition())){
+            return false;
+        }
+    }
+    var p = editedNode.parent();
+    while(p){
+        var pDef = p.definition();
+        if(universeHelpers.isResourceTypeType(pDef)||universeHelpers.isTraitType(pDef)){
+            return false;
+        }
+    }
+    return true;
 }
