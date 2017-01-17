@@ -85,6 +85,14 @@ describe('AST Reuse Test Set',function() {
         it("Method annotation value change", function () {
             test("ASTReuseTests/test09/api.raml", "ASTReuseTests/test09/api05.raml");
         });
+
+        it("Resource type annotation for a resource with the same annotation", function () {
+            test("ASTReuseTests/test10/api.raml", "ASTReuseTests/test10/api01.raml");
+        });
+
+        it("Resource type annotation for a resource", function () {
+            test("ASTReuseTests/test10/api.raml", "ASTReuseTests/test09/api02.raml");
+        });
     });
 });
 
