@@ -91,7 +91,79 @@ describe('AST Reuse Test Set',function() {
         });
 
         it("Resource type annotation for a resource", function () {
-            test("ASTReuseTests/test10/api.raml", "ASTReuseTests/test09/api02.raml");
+            test("ASTReuseTests/test10/api.raml", "ASTReuseTests/test10/api02.raml");
+        });
+
+        it("Resource type: change method response change 1", function () {
+            test("ASTReuseTests/test11/api.raml", "ASTReuseTests/test11/api01.raml", false);
+        });
+
+        it("Resource type: change method response change 2", function () {
+            test("ASTReuseTests/test11/api.raml", "ASTReuseTests/test11/api02.raml", false);
+        });
+
+        it("Inherited method change 1", function () {
+            test("ASTReuseTests/test12/api.raml", "ASTReuseTests/test12/api01.raml", false);
+        });
+
+        it("Inherited method change 2", function () {
+            test("ASTReuseTests/test12/api.raml", "ASTReuseTests/test12/api02.raml", false);
+        });
+
+        it("Resource type method trait content change 1", function () {
+            test("ASTReuseTests/test13/api.raml", "ASTReuseTests/test13/api01.raml");
+        });
+
+        it("Resource type method trait content change 2", function () {
+            test("ASTReuseTests/test13/api.raml", "ASTReuseTests/test13/api03.raml");
+        });
+
+        it("Resource type method trait value change", function () {
+            test("ASTReuseTests/test13/api.raml", "ASTReuseTests/test13/api02.raml", false);
+        });
+
+        it("Resource type method trait name change", function () {
+            test("ASTReuseTests/test13/api.raml", "ASTReuseTests/test13/api04.raml");
+        });
+
+        it("Resource type parameter name change", function () {
+            test("ASTReuseTests/test14/api.raml", "ASTReuseTests/test14/api01.raml", false);
+        });
+
+        it("Resource type parameter value change", function () {
+            test("ASTReuseTests/test14/api.raml", "ASTReuseTests/test14/api02.raml", false);
+        });
+
+        it("Resource type parameter function change", function () {
+            test("ASTReuseTests/test14/api.raml", "ASTReuseTests/test14/api03.raml", false);
+        });
+
+        it("Object annotation adding", function () {
+            test("ASTReuseTests/test15/api.raml", "ASTReuseTests/test15/api01.raml", false);
+        });
+
+        it("Parent object annotation adding ", function () {
+            test("ASTReuseTests/test15/api.raml", "ASTReuseTests/test15/api02.raml", false);
+        });
+
+        it("Object property annotation adding ", function () {
+            test("ASTReuseTests/test15/api.raml", "ASTReuseTests/test15/api03.raml");
+        });
+
+        it("Change property declaration type", function () {
+            test("ASTReuseTests/test16/api.raml", "ASTReuseTests/test16/api01.raml", false);
+        });
+
+        it("Change property declaration type", function () {
+            test("ASTReuseTests/test16/api.raml", "ASTReuseTests/test16/api02.raml", false);
+        });
+
+        it("Change property declaration type 2", function () {
+            test("ASTReuseTests/test17/api.raml", "ASTReuseTests/test17/api02.raml");
+        });
+
+        it("Change property declaration type 3", function () {
+            test("ASTReuseTests/test17/api.raml", "ASTReuseTests/test17/api03.raml", false);
         });
     });
 });
