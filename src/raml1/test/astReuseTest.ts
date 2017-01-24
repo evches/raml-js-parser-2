@@ -85,6 +85,9 @@ describe('AST Reuse Test Set',function() {
         it("Method annotation value change", function () {
             test("ASTReuseTests/test09/api.raml", "ASTReuseTests/test09/api05.raml");
         });
+        it("Resource object annotation property value change", function () {
+            test("ASTReuseTests/test09/api.raml", "ASTReuseTests/test09/api06.raml");
+        });
 
         it("Resource type annotation for a resource with the same annotation", function () {
             test("ASTReuseTests/test10/api.raml", "ASTReuseTests/test10/api01.raml");
@@ -147,7 +150,7 @@ describe('AST Reuse Test Set',function() {
         });
 
         it("Object property annotation adding ", function () {
-            test("ASTReuseTests/test15/api.raml", "ASTReuseTests/test15/api03.raml");
+            test("ASTReuseTests/test15/api.raml", "ASTReuseTests/test15/api03.raml", false);
         });
 
         it("Change property declaration type", function () {
@@ -159,11 +162,11 @@ describe('AST Reuse Test Set',function() {
         });
 
         it("Change property declaration type 2", function () {
-            test("ASTReuseTests/test17/api.raml", "ASTReuseTests/test17/api02.raml");
+            test("ASTReuseTests/test17/api.raml", "ASTReuseTests/test17/api01.raml", false);
         });
 
         it("Change property declaration type 3", function () {
-            test("ASTReuseTests/test17/api.raml", "ASTReuseTests/test17/api03.raml", false);
+            test("ASTReuseTests/test17/api.raml", "ASTReuseTests/test17/api02.raml", false);
         });
     });
 });

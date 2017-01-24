@@ -435,6 +435,9 @@ function checkReusability(hnode:hlimpl.ASTNodeImpl,rNode:hlimpl.ASTNodeImpl){
             break;
         }
     }
+    while(pos>0&&s1.charAt(pos).replace(/\s/,'')==''){
+        pos--;
+    }
     if(pos<0&&s1.length!=s2.length){
         pos = l;
     }
