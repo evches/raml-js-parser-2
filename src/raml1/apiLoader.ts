@@ -445,30 +445,37 @@ function checkReusability(hnode:hlimpl.ASTNodeImpl,rNode:hlimpl.ASTNodeImpl){
     if(editedNode.lowLevel().unit().absolutePath() != hnode.lowLevel().unit().absolutePath()){
         return true;
     }
-    if(editedNode.isAttr()){
-        var parent = editedNode.parent();
-        if(universeHelpers.isTypeDeclarationDescendant(parent.definition())){
-            return false;
-        }
-        var pProp = parent.property();
-        if(!pProp){
-            return true;
-        }
-        var propRange = pProp.range();
-        if(universeHelpers.isResourceTypeRefType(propRange)||universeHelpers.isTraitRefType(propRange)){
-            return false;
-        }
+    var editedElement = editedNode.isElement() ? editedNode.asElement() : editedNode.parent();
+    if(!editedElement){
+        return true;
     }
-    else if(editedNode.isElement()){
-        var el = editedNode.asElement();
-        if(universeHelpers.isTypeDeclarationDescendant(el.definition())){
-            return false;
-        }
+    var pProp = editedElement.property();
+    if(!pProp){
+        return true;
     }
-    var p = editedNode.parent();
+    if(universeHelpers.isAnnotationsProperty(pProp)){
+        editedElement = editedElement.parent();
+    }
+    if(!editedElement){
+        return true;
+    }
+    var p = editedElement;
     while(p){
         var pDef = p.definition();
         if(universeHelpers.isResourceTypeType(pDef)||universeHelpers.isTraitType(pDef)){
+            return false;
+        }
+        var prop = p.property();
+        if(!prop){
+            return true;
+        }
+        if(universeHelpers.isTypeDeclarationDescendant(pDef)){
+            if(universeHelpers.isTypesProperty(prop)||universeHelpers.isAnnotationTypesProperty(prop)){
+                return false;
+            }
+        }
+        var propRange = prop.range();
+        if(universeHelpers.isResourceTypeRefType(propRange)||universeHelpers.isTraitRefType(propRange)){
             return false;
         }
         p = p.parent();

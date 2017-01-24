@@ -19,7 +19,7 @@ describe('AST Reuse Test Set',function() {
         });
 
         it("Response body type switch", function () {
-            test("ASTReuseTests/BasicTests/api.raml", "ASTReuseTests/BasicTests/api03.raml", false);
+            test("ASTReuseTests/BasicTests/api.raml", "ASTReuseTests/BasicTests/api03.raml");
         });
 
         it("Root media type switch", function () {
@@ -46,19 +46,19 @@ describe('AST Reuse Test Set',function() {
             test("ASTReuseTests/test03/api.raml", "ASTReuseTests/test03/api01.raml");
         });
 
-        it("uriParameter facet value change", function () {
-            test("ASTReuseTests/test04/api.raml", "ASTReuseTests/test04/api01.raml",false);
+        it("Uri parameter facet value change", function () {
+            test("ASTReuseTests/test04/api.raml", "ASTReuseTests/test04/api01.raml");
         });
 
-        it("resource description change", function () {
+        it("Resource description change", function () {
             test("ASTReuseTests/test05/api.raml", "ASTReuseTests/test05/api01.raml");
         });
 
-        it("header name change in the method", function () {
-            test("ASTReuseTests/test06/api.raml", "ASTReuseTests/test06/api01.raml", false);
+        it("Header name change in the method", function () {
+            test("ASTReuseTests/test06/api.raml", "ASTReuseTests/test06/api01.raml");
         });
 
-        it("trait parameter value change", function () {
+        it("Trait parameter value change", function () {
             test("ASTReuseTests/test07/api.raml", "ASTReuseTests/test07/api01.raml", false);
         });
 
@@ -111,11 +111,11 @@ describe('AST Reuse Test Set',function() {
         });
 
         it("Resource type method trait content change 1", function () {
-            test("ASTReuseTests/test13/api.raml", "ASTReuseTests/test13/api01.raml");
+            test("ASTReuseTests/test13/api.raml", "ASTReuseTests/test13/api01.raml", false);
         });
 
         it("Resource type method trait content change 2", function () {
-            test("ASTReuseTests/test13/api.raml", "ASTReuseTests/test13/api03.raml");
+            test("ASTReuseTests/test13/api.raml", "ASTReuseTests/test13/api03.raml", false);
         });
 
         it("Resource type method trait value change", function () {
@@ -123,7 +123,7 @@ describe('AST Reuse Test Set',function() {
         });
 
         it("Resource type method trait name change", function () {
-            test("ASTReuseTests/test13/api.raml", "ASTReuseTests/test13/api04.raml");
+            test("ASTReuseTests/test13/api.raml", "ASTReuseTests/test13/api04.raml", false);
         });
 
         it("Resource type parameter name change", function () {
