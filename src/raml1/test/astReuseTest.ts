@@ -168,6 +168,34 @@ describe('AST Reuse Test Set',function() {
         it("Change property declaration type 3", function () {
             test("ASTReuseTests/test17/api.raml", "ASTReuseTests/test17/api02.raml", false);
         });
+
+        it("Resource type: change supertype", function () {
+            test("ASTReuseTests/test18/api.raml", "ASTReuseTests/test18/api01.raml", false);
+        });
+
+        it("Resource type: modify supertype trait", function () {
+            test("ASTReuseTests/test18/api.raml", "ASTReuseTests/test18/api02.raml", false);
+        });
+
+        it("Resource type: modify response body", function () {
+            test("ASTReuseTests/test18/api.raml", "ASTReuseTests/test18/api03.raml", false);
+        });
+
+        it("Resource type sypertype: change method name", function () {
+            test("ASTReuseTests/test18/api.raml", "ASTReuseTests/test18/api04.raml", false);
+        });
+
+        it("Resource type sypertype: change response code", function () {
+            test("ASTReuseTests/test18/api.raml", "ASTReuseTests/test18/api05.raml", false);
+        });
+
+        it("Resource type sypertype: modify trait", function () {
+            test("ASTReuseTests/test18/api.raml", "ASTReuseTests/test18/api06.raml", false);
+        });
+
+        it("Resource type value change", function () {
+            test("ASTReuseTests/test18/api.raml", "ASTReuseTests/test18/api07.raml");
+        });
     });
 });
 
