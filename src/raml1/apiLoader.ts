@@ -4,6 +4,7 @@ import RamlWrapper1= require("../raml1/artifacts/raml10parserapi")
 import RamlWrapper1Impl= require("../raml1/artifacts/raml10parser")
 
 import RamlWrapper08= require("../raml1/artifacts/raml08parserapi")
+import DeviceProfilesWrapper = require("../raml1/artifacts/device-profiles-parserapi")
 
 import path=require("path")
 import fs=require("fs")
@@ -32,7 +33,7 @@ import {IHighLevelNode} from "raml-definition-system/dist/definitionSystem";
  * @param options Load options
  * @return Opt&lt;Api&gt;, where Api belongs to RAML 1.0 or RAML 0.8 model.
  ***/
-export function loadApi(apiPath:string,arg1?:string[]|parserCoreApi.Options,arg2?:string[]|parserCoreApi.Options):Opt<RamlWrapper1.Api|RamlWrapper08.Api>{
+export function loadApi(apiPath:string,arg1?:string[]|parserCoreApi.Options,arg2?:string[]|parserCoreApi.Options):Opt<RamlWrapper1.Api|RamlWrapper08.Api|DeviceProfilesWrapper.Api>{
 
     var api = loadRAMLInternal(apiPath,arg1,arg2);
 
@@ -40,7 +41,7 @@ export function loadApi(apiPath:string,arg1?:string[]|parserCoreApi.Options,arg2
     //     //TODO loaded RAML is API
     //     throw new Error("Loaded RAML is not API");
     // } else {
-    return new Opt<RamlWrapper1.Api|RamlWrapper08.Api>(<any>api);
+    return new Opt<RamlWrapper1.Api|RamlWrapper08.Api|DeviceProfilesWrapper.Api>(<any>api);
     // }
 
 }
@@ -122,7 +123,7 @@ function loadRAMLInternal(apiPath:string,arg1?:string[]|parserCoreApi.Options,ar
  * @param options Load options
  * @return Promise&lt;Api&gt;, where Api belongs to RAML 1.0 or RAML 0.8 model.
  ***/
-export function loadApiAsync(apiPath:string,arg1?:string[]|parserCoreApi.Options,arg2?:string[]|parserCoreApi.Options):Promise<RamlWrapper1.Api|RamlWrapper08.Api>{
+export function loadApiAsync(apiPath:string,arg1?:string[]|parserCoreApi.Options,arg2?:string[]|parserCoreApi.Options):Promise<RamlWrapper1.Api|RamlWrapper08.Api|DeviceProfilesWrapper.Api>{
     var ramlPromise = loadRAMLAsync(apiPath,arg1,arg2);
     return ramlPromise.then(loadedRaml=>{
         // if (false) {

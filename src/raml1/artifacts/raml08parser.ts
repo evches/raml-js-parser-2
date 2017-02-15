@@ -9,7 +9,7 @@ import services=require("../../raml1/definition-system/ramlServices");
 import core=require("../../raml1/wrapped-ast/parserCore");
 import apiLoader=require("../../raml1/apiLoader");
 import coreApi=require("../../raml1/wrapped-ast/parserCoreApi");
-import pApi = require("./raml08parserapi");
+import pApi = require("./raml08parserapi.ts");
 import helper=require("../../raml1/wrapped-ast/wrapperHelper08")
 
 import Api = pApi.Api;

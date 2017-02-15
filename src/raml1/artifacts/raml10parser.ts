@@ -37,7 +37,7 @@ import services=require("../../raml1/definition-system/ramlServices");
 import core=require("../../raml1/wrapped-ast/parserCore");
 import apiLoader=require("../../raml1/apiLoader");
 import coreApi=require("../../raml1/wrapped-ast/parserCoreApi");
-import pApi = require("./raml10parserapi");
+import pApi = require("./raml10parserapi.ts");
 import helper=require("../../raml1/wrapped-ast/wrapperHelper")
 
 import Api = pApi.Api;

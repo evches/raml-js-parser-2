@@ -24,7 +24,8 @@ var helperSources = {
             "source": path.resolve(__dirname, "../../src/raml1/wrapped-ast/wrapperHelper08.ts"),
             "import": "../../raml1/wrapped-ast/wrapperHelper08"
         }
-    }
+    },
+    "device-profiles": {}
 };
 
 export class ParserGenerator{
@@ -33,6 +34,11 @@ export class ParserGenerator{
     implementationModule=new td.TSAPIModule();
 
     processed:{[name:string]:def.IType}={};
+    parserapi: string;
+
+    constructor(parserapi) {
+        this.parserapi = parserapi;
+    }
 
     processType(u:def.IType, generateConstructor?:boolean) {
 
@@ -668,12 +674,13 @@ Set ${x.nameId()} value`;
     }
 
     getApiImportFile() : string {
-        var isRaml1 = this.ramlVersion == 'RAML10'
+        return "./" + this.parserapi;
+        /*var isRaml1 = this.ramlVersion == 'RAML10'
         if (isRaml1) {
             return "./raml10parserapi";
         } else {
             return "./raml08parserapi";
-        }
+        }*/
     }
 
     serializeInterfaceToString() {
@@ -998,8 +1005,8 @@ ${mapContent}
 
 
 
-export function def2Parser(...u:def.IType[]):ParserGenerator{
-    var mod=new ParserGenerator();
+export function def2Parser(parserapi, ...u:def.IType[]):ParserGenerator{
+    var mod=new ParserGenerator(parserapi);
     for(var v of u ){
         mod.processType(v);
     }
