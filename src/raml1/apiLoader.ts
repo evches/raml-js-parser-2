@@ -33,7 +33,7 @@ import {IHighLevelNode} from "raml-definition-system/dist/definitionSystem";
  * @param options Load options
  * @return Opt&lt;Api&gt;, where Api belongs to RAML 1.0 or RAML 0.8 model.
  ***/
-export function loadApi(apiPath:string,arg1?:string[]|parserCoreApi.Options,arg2?:string[]|parserCoreApi.Options):Opt<RamlWrapper1.Api|RamlWrapper08.Api|DeviceProfilesWrapper.Api>{
+export function loadApi(apiPath:string,arg1?:string[]|parserCoreApi.Options,arg2?:string[]|parserCoreApi.Options):Opt<any>{
 
     var api = loadRAMLInternal(apiPath,arg1,arg2);
 
@@ -41,7 +41,7 @@ export function loadApi(apiPath:string,arg1?:string[]|parserCoreApi.Options,arg2
     //     //TODO loaded RAML is API
     //     throw new Error("Loaded RAML is not API");
     // } else {
-    return new Opt<RamlWrapper1.Api|RamlWrapper08.Api|DeviceProfilesWrapper.Api>(<any>api);
+    return new Opt<any>(<any>api);
     // }
 
 }
@@ -123,7 +123,7 @@ function loadRAMLInternal(apiPath:string,arg1?:string[]|parserCoreApi.Options,ar
  * @param options Load options
  * @return Promise&lt;Api&gt;, where Api belongs to RAML 1.0 or RAML 0.8 model.
  ***/
-export function loadApiAsync(apiPath:string,arg1?:string[]|parserCoreApi.Options,arg2?:string[]|parserCoreApi.Options):Promise<RamlWrapper1.Api|RamlWrapper08.Api|DeviceProfilesWrapper.Api>{
+export function loadApiAsync(apiPath:string,arg1?:string[]|parserCoreApi.Options,arg2?:string[]|parserCoreApi.Options):Promise<any>{
     var ramlPromise = loadRAMLAsync(apiPath,arg1,arg2);
     return ramlPromise.then(loadedRaml=>{
         // if (false) {

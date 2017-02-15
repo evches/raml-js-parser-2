@@ -784,7 +784,7 @@ export function loadApiSync(apiPath:string, extensionsAndOverlays:string[],optio
 `:''}
 export function loadApiSync(apiPath:string, arg1?:string[]|coreApi.Options, arg2?:coreApi.Options):Api{
 
-        return <Api>apiLoader.loadApi(apiPath,arg1,arg2).getOrElse(null);
+        return <Api><any>apiLoader.loadApi(apiPath,arg1,arg2).getOrElse(null);
 }
 
 ${this.ramlVersion=='RAML10'?
