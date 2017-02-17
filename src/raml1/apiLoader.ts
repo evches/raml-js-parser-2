@@ -266,24 +266,25 @@ function toApi(unitOrHighlevel:ll.ICompilationUnit|hl.IHighLevelNode, options:pa
 
     var contents = unit.contents();
 
-    var ramlFirstLine = hlimpl.ramlFirstLine(contents);
-    if(!ramlFirstLine){
-        throw new Error("Invalid first line. A RAML document is expected to start with '#%RAML <version> <?fragment type>'.");
-    }
-
-    var verStr = ramlFirstLine[1];
+    const ramlFirstLine = hlimpl.ramlFirstLine(contents);
 
     var ramlVersion;
-    if (verStr == '0.8') {
-        ramlVersion='RAML08';
-    } else if (verStr == '1.0') {
-        ramlVersion='RAML10';
+
+    if (ramlFirstLine) {
+        const verStr = ramlFirstLine[1];
+        if (verStr == '0.8') {
+            ramlVersion='RAML08';
+        } else if (verStr == '1.0') {
+            ramlVersion='RAML10';
+        }
+    } else {
+        ramlVersion = 'device-profiles';
     }
 
     if (!ramlVersion) {
         throw new Error("Unknown version of RAML expected to see one of '#%RAML 0.8' or '#%RAML 1.0'");
     }
-    if(ramlVersion=='RAML08'&&checkApisOverlays){
+    if (ramlVersion !== 'RAML10' && checkApisOverlays) {
         throw new Error('Extensions and overlays are not supported in RAML 0.8.');
     }
 
