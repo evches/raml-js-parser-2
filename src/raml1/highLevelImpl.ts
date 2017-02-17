@@ -23,6 +23,7 @@ import core=require("./wrapped-ast/parserCore");
 import wrapperHelper=require("./wrapped-ast/wrapperHelper");
 import factory10 = require("./artifacts/raml10factory")
 import factory08 = require("./artifacts/raml08factory")
+import factoryDeviceProfiles = require("./artifacts/device-profiles-factory")
 import universeHelpers = require("./tools/universeHelpers")
 import resourceRegistry = require("./jsyaml/resourceRegistry")
 import rTypes=defs.rt;
@@ -1307,6 +1308,8 @@ export class ASTNodeImpl extends BasicASTNode implements  hl.IEditableHighLevelN
         }
         else if(ramlVersion=='RAML08'){
             return factory08.buildWrapperNode(this);
+        } else if (ramlVersion == 'device-profiles') {
+            return factoryDeviceProfiles.buildWrapperNode(this);
         }
         return null;
     }
