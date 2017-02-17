@@ -272,10 +272,6 @@ function toApi(unitOrHighlevel:ll.ICompilationUnit|hl.IHighLevelNode, options:pa
     }
 
     var verStr = ramlFirstLine[1];
-    var ramlFileType = ramlFirstLine[2];
-
-    var typeName;
-    var apiImpl;
 
     var ramlVersion;
     if (verStr == '0.8') {
@@ -291,31 +287,9 @@ function toApi(unitOrHighlevel:ll.ICompilationUnit|hl.IHighLevelNode, options:pa
         throw new Error('Extensions and overlays are not supported in RAML 0.8.');
     }
 
-    //if (!ramlFileType || ramlFileType.trim() === "") {
-    //    if (verStr=='0.8') {
-    //        typeName = universeDef.Universe08.Api.name;
-    //        apiImpl = RamlWrapper08.ApiImpl;
-    //    } else if(verStr=='1.0'){
-    //        typeName = universeDef.Universe10.Api.name;
-    //        apiImpl = RamlWrapper1.ApiImpl;
-    //    }
-    //} else if (ramlFileType === "Overlay") {
-    //    apiImpl = RamlWrapper1.OverlayImpl;
-    //    typeName = universeDef.Universe10.Overlay.name;
-    //} else if (ramlFileType === "Extension") {
-    //    apiImpl = RamlWrapper1.ExtensionImpl;
-    //    typeName = universeDef.Universe10.Extension.name;
-    //}
-
-    var universe = universeProvider(ramlVersion);
-    var apiType = universe.type(typeName);
-
     if (!highLevel) {
         highLevel = <hl.IHighLevelNode>hlimpl.fromUnit(unit);
-        //highLevel =
-        //    new hlimpl.ASTNodeImpl(unit.ast(), null, <any>apiType, null)
     }
-    //api = new apiImpl(highLevel);
     api = <hl.BasicNode>highLevel.wrapperNode();
 
     return api;
