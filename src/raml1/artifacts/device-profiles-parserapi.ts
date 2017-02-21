@@ -32,6 +32,10 @@ export interface Api extends core.BasicNode{
  * 5. You can add any number of new workflows into the sub-profile.
  **/
 export interface DeviceProfileBase extends core.BasicNode{
+uuid(  ):string
+
+name(  ):string
+
 
         /**
          * Name of the device-profile which is being inherited

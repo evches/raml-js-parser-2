@@ -101,6 +101,34 @@ RAMLVersion(  ):string{return "device-profiles";}
  * 5. You can add any number of new workflows into the sub-profile.
  **/
 export class DeviceProfileBaseImpl extends core.BasicNodeImpl implements DeviceProfileBase{
+uuid(  ):string{
+             return <string>super.attribute('uuid', this.toString);
+         }
+
+
+        /**
+         * @hidden
+         * Set uuid value
+         **/
+setUuid( param:string ){
+            this.highLevel().attrOrCreate("uuid").setValue(""+param);
+            return this;
+        }
+
+name(  ):string{
+             return <string>super.attribute('name', this.toString);
+         }
+
+
+        /**
+         * @hidden
+         * Set name value
+         **/
+setName( param:string ){
+            this.highLevel().attrOrCreate("name").setValue(""+param);
+            return this;
+        }
+
 
         /**
          * Name of the device-profile which is being inherited
