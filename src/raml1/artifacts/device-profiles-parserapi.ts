@@ -8,6 +8,36 @@ export interface Api extends core.BasicNode{
 
 
 /**
+ * Grouping for device-profile
+ **/
+export interface DeviceProfileBase extends core.BasicNode{
+_uuid(  ):string
+
+uuid(  ):string
+
+name(  ):string
+
+
+        /**
+         * Description about this device profile
+         **/
+description(  ):string
+
+
+        /**
+         * device family name that this device profile is designed for
+         **/
+device_family(  ):string
+
+extends(  ):ExtendsContainer
+
+global_parameters(  ):GlobalParameter[]
+
+workflows(  ):Workflow[]
+}
+
+
+/**
  * Mechanism to inherit from a parent profile. You can define a
  * device-profile to inherit from a single other parent profile.
  * 1. All workflows are inherited from the parent profile.
@@ -31,11 +61,7 @@ export interface Api extends core.BasicNode{
  * sub-profile. It is not inherited from the parent workflow.
  * 5. You can add any number of new workflows into the sub-profile.
  **/
-export interface DeviceProfileBase extends core.BasicNode{
-uuid(  ):string
-
-name(  ):string
-
+export interface ExtendsContainer extends core.BasicNode{
 
         /**
          * Name of the device-profile which is being inherited
@@ -53,10 +79,6 @@ excluded_workflows(  ):string[]
          * List of workflows that are being redefined in this sub-profile
          **/
 redefined_workflows(  ):string[]
-
-global_parameters(  ):GlobalParameter[]
-
-workflows(  ):Workflow[]
 }
 
 
@@ -64,6 +86,8 @@ workflows(  ):Workflow[]
  * Global customizable parameters that can be used in all workflows
  **/
 export interface GlobalParameter extends core.BasicNode{
+_name(  ):string
+
 
         /**
          * Parameter name
@@ -95,6 +119,8 @@ obj_value(  ):any
  * customerize the workflow with input resources and config templates.
  **/
 export interface Workflow extends core.BasicNode{
+_name(  ):string
+
 
         /**
          * Name of the workflow that can used by workflow implementation to
@@ -115,6 +141,8 @@ output(  ):DeviceProfileOutput
  * Input parameters to resolve the resources defined in this workflow
  **/
 export interface Parameter extends core.BasicNode{
+_name(  ):string
+
 
         /**
          * Parameter name
@@ -145,6 +173,8 @@ default_value(  ):string
  * List of resource objects that can be defined or constructed via REST API
  **/
 export interface Resource extends core.BasicNode{
+_name(  ):string
+
 
         /**
          * Resource name has to be a valid python variable name. This
@@ -277,6 +307,15 @@ export function isApi(node: core.AbstractWrapperNode) : node is Api {
  */
 export function isDeviceProfileBase(node: core.AbstractWrapperNode) : node is DeviceProfileBase {
     return node.kind() == "DeviceProfileBase" && node.RAMLVersion() == "device-profiles";
+}
+
+
+/**
+ * Custom type guard for ExtendsContainer. Returns true if node is instance of ExtendsContainer. Returns false otherwise.
+ * Also returns false for super interfaces of ExtendsContainer.
+ */
+export function isExtendsContainer(node: core.AbstractWrapperNode) : node is ExtendsContainer {
+    return node.kind() == "ExtendsContainer" && node.RAMLVersion() == "device-profiles";
 }
 
 

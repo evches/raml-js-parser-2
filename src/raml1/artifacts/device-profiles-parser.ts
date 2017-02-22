@@ -14,6 +14,7 @@ import pApi = require("./device-profiles-parserapi.ts");
 
 import Api = pApi.Api;
 import DeviceProfileBase = pApi.DeviceProfileBase;
+import ExtendsContainer = pApi.ExtendsContainer;
 import GlobalParameter = pApi.GlobalParameter;
 import ParamValue = pApi.ParamValue;
 import Workflow = pApi.Workflow;
@@ -77,30 +78,23 @@ RAMLVersion(  ):string{return "device-profiles";}
 
 
 /**
- * Mechanism to inherit from a parent profile. You can define a
- * device-profile to inherit from a single other parent profile.
- * 1. All workflows are inherited from the parent profile.
- * 2. You can exclude a set of workflows from being inherited by
- * specifying their names in the excluded_workflows list.
- * 3. You can redefine any of the inherited workflows by specifying
- * their names in the redefined_workflows list.
- * 4. When redefining a workflow, you must follow the following rules:
- * A) Leave the parameters list empty. It will be the same as the
- * parameter list from the workflow in the parent profile.
- * B) All resources from the workflow in the parent inheritance chain
- * will be available in the redefined workflow.
- * C) You can add resources with new names - i.e. names not conflicting
- * with any other resource for the same workflow in the parent
- * inheritance chain.
- * D) You can redefine a resource - i.e. define a resource with the
- * same name in this workflow and provide a body. In this case the
- * workflow in the sub-profile must provide the complete resource
- * definition.
- * E) You must define the output of the workflow completely in the
- * sub-profile. It is not inherited from the parent workflow.
- * 5. You can add any number of new workflows into the sub-profile.
+ * Grouping for device-profile
  **/
 export class DeviceProfileBaseImpl extends core.BasicNodeImpl implements DeviceProfileBase{
+_uuid(  ):string{
+             return <string>super.attribute('_uuid', this.toString);
+         }
+
+
+        /**
+         * @hidden
+         * Set _uuid value
+         **/
+set_uuid( param:string ){
+            this.highLevel().attrOrCreate("_uuid").setValue(""+param);
+            return this;
+        }
+
 uuid(  ):string{
              return <string>super.attribute('uuid', this.toString);
          }
@@ -131,57 +125,43 @@ setName( param:string ){
 
 
         /**
-         * Name of the device-profile which is being inherited
+         * Description about this device profile
          **/
-parent_profile(  ):string{
-             return <string>super.attribute('parent_profile', this.toString);
+description(  ):string{
+             return <string>super.attribute('description', this.toString);
          }
 
 
         /**
          * @hidden
-         * Set parent_profile value
+         * Set description value
          **/
-setParent_profile( param:string ){
-            this.highLevel().attrOrCreate("parent_profile").setValue(""+param);
+setDescription( param:string ){
+            this.highLevel().attrOrCreate("description").setValue(""+param);
             return this;
         }
 
 
         /**
-         * List of workflows that are not inherited from this parent profile
+         * device family name that this device profile is designed for
          **/
-excluded_workflows(  ):string[]{
-             return <string[]>super.attributes('excluded_workflows', this.toString);
+device_family(  ):string{
+             return <string>super.attribute('device_family', this.toString);
          }
 
 
         /**
          * @hidden
-         * Set excluded_workflows value
+         * Set device_family value
          **/
-setExcluded_workflows( param:string ){
-            this.highLevel().attrOrCreate("excluded_workflows").setValue(""+param);
+setDevice_family( param:string ){
+            this.highLevel().attrOrCreate("device_family").setValue(""+param);
             return this;
         }
 
-
-        /**
-         * List of workflows that are being redefined in this sub-profile
-         **/
-redefined_workflows(  ):string[]{
-             return <string[]>super.attributes('redefined_workflows', this.toString);
+extends(  ):ExtendsContainer{
+             return <ExtendsContainer>super.element('extends');
          }
-
-
-        /**
-         * @hidden
-         * Set redefined_workflows value
-         **/
-setRedefined_workflows( param:string ){
-            this.highLevel().attrOrCreate("redefined_workflows").setValue(""+param);
-            return this;
-        }
 
 global_parameters(  ):GlobalParameter[]{
              return <GlobalParameter[]>super.elements('global_parameters');
@@ -241,9 +221,151 @@ RAMLVersion(  ):string{return "device-profiles";}
 
 
 /**
+ * Mechanism to inherit from a parent profile. You can define a
+ * device-profile to inherit from a single other parent profile.
+ * 1. All workflows are inherited from the parent profile.
+ * 2. You can exclude a set of workflows from being inherited by
+ * specifying their names in the excluded_workflows list.
+ * 3. You can redefine any of the inherited workflows by specifying
+ * their names in the redefined_workflows list.
+ * 4. When redefining a workflow, you must follow the following rules:
+ * A) Leave the parameters list empty. It will be the same as the
+ * parameter list from the workflow in the parent profile.
+ * B) All resources from the workflow in the parent inheritance chain
+ * will be available in the redefined workflow.
+ * C) You can add resources with new names - i.e. names not conflicting
+ * with any other resource for the same workflow in the parent
+ * inheritance chain.
+ * D) You can redefine a resource - i.e. define a resource with the
+ * same name in this workflow and provide a body. In this case the
+ * workflow in the sub-profile must provide the complete resource
+ * definition.
+ * E) You must define the output of the workflow completely in the
+ * sub-profile. It is not inherited from the parent workflow.
+ * 5. You can add any number of new workflows into the sub-profile.
+ **/
+export class ExtendsContainerImpl extends core.BasicNodeImpl implements ExtendsContainer{
+
+        /**
+         * Name of the device-profile which is being inherited
+         **/
+parent_profile(  ):string{
+             return <string>super.attribute('parent_profile', this.toString);
+         }
+
+
+        /**
+         * @hidden
+         * Set parent_profile value
+         **/
+setParent_profile( param:string ){
+            this.highLevel().attrOrCreate("parent_profile").setValue(""+param);
+            return this;
+        }
+
+
+        /**
+         * List of workflows that are not inherited from this parent profile
+         **/
+excluded_workflows(  ):string[]{
+             return <string[]>super.attributes('excluded_workflows', this.toString);
+         }
+
+
+        /**
+         * @hidden
+         * Set excluded_workflows value
+         **/
+setExcluded_workflows( param:string ){
+            this.highLevel().attrOrCreate("excluded_workflows").setValue(""+param);
+            return this;
+        }
+
+
+        /**
+         * List of workflows that are being redefined in this sub-profile
+         **/
+redefined_workflows(  ):string[]{
+             return <string[]>super.attributes('redefined_workflows', this.toString);
+         }
+
+
+        /**
+         * @hidden
+         * Set redefined_workflows value
+         **/
+setRedefined_workflows( param:string ){
+            this.highLevel().attrOrCreate("redefined_workflows").setValue(""+param);
+            return this;
+        }
+
+
+        /**
+         * @hidden
+         * @return Actual name of instance class
+         **/
+wrapperClassName(  ):string{return "ExtendsContainerImpl";}
+
+
+        /**
+         * @return Actual name of instance interface
+         **/
+kind(  ):string{return "ExtendsContainer";}
+
+
+        /**
+         * @return Actual name of instance interface and all of its superinterfaces
+         **/
+allKinds(  ):string[]{return super.allKinds().concat("ExtendsContainer");}
+
+
+        /**
+         * @return Actual name of instance class and all of its superclasses
+         **/
+allWrapperClassNames(  ):string[]{return super.allWrapperClassNames().concat("undefined.ExtendsContainerImpl");}
+
+
+        /**
+         * @return Whether specified object is an instance of this class
+         **/
+static isInstance( instance:any ):boolean{
+        if(instance != null && instance.allWrapperClassNames
+            && typeof(instance.allWrapperClassNames) == "function"){
+
+            for (let currentIdentifier of instance.allWrapperClassNames()){
+                if(currentIdentifier == "undefined.ExtendsContainerImpl") return true;
+            }
+        }
+
+        return false;
+}
+
+
+        /**
+         * @return RAML version of the node
+         **/
+RAMLVersion(  ):string{return "undefined";}
+}
+
+
+/**
  * Global customizable parameters that can be used in all workflows
  **/
 export class GlobalParameterImpl extends core.BasicNodeImpl implements GlobalParameter{
+_name(  ):string{
+             return <string>super.attribute('_name', this.toString);
+         }
+
+
+        /**
+         * @hidden
+         * Set _name value
+         **/
+set_name( param:string ){
+            this.highLevel().attrOrCreate("_name").setValue(""+param);
+            return this;
+        }
+
 
         /**
          * Parameter name
@@ -412,7 +534,7 @@ allKinds(  ):string[]{return super.allKinds().concat("ParamValue");}
         /**
          * @return Actual name of instance class and all of its superclasses
          **/
-allWrapperClassNames(  ):string[]{return super.allWrapperClassNames().concat("undefined.ParamValueImpl");}
+allWrapperClassNames(  ):string[]{return super.allWrapperClassNames().concat("device-profiles.ParamValueImpl");}
 
 
         /**
@@ -423,7 +545,7 @@ static isInstance( instance:any ):boolean{
             && typeof(instance.allWrapperClassNames) == "function"){
 
             for (let currentIdentifier of instance.allWrapperClassNames()){
-                if(currentIdentifier == "undefined.ParamValueImpl") return true;
+                if(currentIdentifier == "device-profiles.ParamValueImpl") return true;
             }
         }
 
@@ -434,7 +556,7 @@ static isInstance( instance:any ):boolean{
         /**
          * @return RAML version of the node
          **/
-RAMLVersion(  ):string{return "undefined";}
+RAMLVersion(  ):string{return "device-profiles";}
 }
 
 
@@ -443,6 +565,20 @@ RAMLVersion(  ):string{return "undefined";}
  * customerize the workflow with input resources and config templates.
  **/
 export class WorkflowImpl extends core.BasicNodeImpl implements Workflow{
+_name(  ):string{
+             return <string>super.attribute('_name', this.toString);
+         }
+
+
+        /**
+         * @hidden
+         * Set _name value
+         **/
+set_name( param:string ){
+            this.highLevel().attrOrCreate("_name").setValue(""+param);
+            return this;
+        }
+
 
         /**
          * Name of the workflow that can used by workflow implementation to
@@ -528,6 +664,20 @@ RAMLVersion(  ):string{return "device-profiles";}
  * Input parameters to resolve the resources defined in this workflow
  **/
 export class ParameterImpl extends core.BasicNodeImpl implements Parameter{
+_name(  ):string{
+             return <string>super.attribute('_name', this.toString);
+         }
+
+
+        /**
+         * @hidden
+         * Set _name value
+         **/
+set_name( param:string ){
+            this.highLevel().attrOrCreate("_name").setValue(""+param);
+            return this;
+        }
+
 
         /**
          * Parameter name
@@ -653,6 +803,20 @@ RAMLVersion(  ):string{return "device-profiles";}
  * List of resource objects that can be defined or constructed via REST API
  **/
 export class ResourceImpl extends core.BasicNodeImpl implements Resource{
+_name(  ):string{
+             return <string>super.attribute('_name', this.toString);
+         }
+
+
+        /**
+         * @hidden
+         * Set _name value
+         **/
+set_name( param:string ){
+            this.highLevel().attrOrCreate("_name").setValue(""+param);
+            return this;
+        }
+
 
         /**
          * Resource name has to be a valid python variable name. This
@@ -1134,6 +1298,16 @@ function createApi(key:string){
 function createDeviceProfileBase(key:string){
     var universe=def.getUniverse("device-profiles");
     var nc=<def.NodeClass>universe.type("DeviceProfileBase");
+    var node=stubs.createStubNode(nc,null,key);
+    return node;
+}
+
+/**
+ * @hidden
+ **/
+function createExtendsContainer(key:string){
+    var universe=def.getUniverse("device-profiles");
+    var nc=<def.NodeClass>universe.type("ExtendsContainer");
     var node=stubs.createStubNode(nc,null,key);
     return node;
 }

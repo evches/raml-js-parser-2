@@ -83,6 +83,8 @@ var classMap = {
 
     "DeviceProfileOutput": (x,y)=>{return new RamlWrapper.DeviceProfileOutputImpl(x,y)},
 
+    "ExtendsContainer": (x,y)=>{return new RamlWrapper.ExtendsContainerImpl(x,y)},
+
     "GlobalParameter": (x,y)=>{return new RamlWrapper.GlobalParameterImpl(x,y)},
 
     "ParamValue": (x,y)=>{return new RamlWrapper.ParamValueImpl(x,y)},
